@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Herb List</h1>
+
+{% for herb in herbs %}
+  <a href="{% url 'detail' herb.id %}">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ herb.name }}</span>
+        <p>Type: {{ herb.type }}</p>
+        <p>Description: {{ herb.description|linebreaks }}</p>
+      </div>
+    </div>
+  </a>
+{% endfor %}
+
+{% endblock %}
