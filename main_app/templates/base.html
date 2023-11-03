@@ -19,12 +19,19 @@
           <li><a href="{% url 'home' %}" class="left brand-logo">&nbsp;&nbsp;Herb Collector</a></li>
         </ul>
         <ul class="right">
+          <!-- changes below -->
           <li><a href="{% url 'about' %}">About</a></li>
-          <li><a href="{% url 'fertilisers_create' %}">Add a Fertiliser</a></li>
-          <li><a href="{% url 'fertilisers_index' %}">View All Fertilisers</a></li>
-          <li><a href="{% url 'herbs_create' %}">Add an Herb</a></li>
-          <li><a href="{% url 'index' %}">View All Your Herbs</a></li>
-        </ul>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'fertilisers_create' %}">Add a Fertiliser</a></li>
+            <li><a href="{% url 'fertilisers_index' %}">View All Fertilisers</a></li>
+            <li><a href="{% url 'herbs_create' %}">Add an Herb</a></li>
+            <li><a href="{% url 'index' %}">View All Your Herbs</a></li>
+            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            {% else %}
+              <li><a href="{% url 'signup' %}">Sign Up</a></li>
+              <li><a href="{% url 'login' %}">Log In</a></li>
+            {% endif %}
+          </ul>
       </div>
     </nav>
   </header>
