@@ -16,6 +16,17 @@
         <a href="{% url 'herbs_delete' herb.id %}">Delete</a>
       </div>
     </div>
+    {% for photo in herb.photo_set.all %}
+      <img class="responsive-img card-panel" src="{{photo.url}}">
+    {% empty %}
+      <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+    {% endfor %}
+    <form action="{% url 'add_photo' herb.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+      {% csrf_token %}
+      <input type="file" name="photo-file">
+      <br><br>
+      <button type="submit" class="btn">Upload Photo</button>
+    </form>
   </div>
   <!-- New Markup Below -->
   <div class="col s6">
@@ -47,6 +58,57 @@
   </div>
   <!-- New Markup Above -->
 </div>
+
+<!-- This is all new markup to be added just above the <script> tag -->
+  <hr>
+  <div class="row">
+    <div class="col s6">
+      <h3>{{ herb.name }}'s Fertilizer</h3>
+      {% if herb.fertilizers.count %}
+        {% for fertilizer in herb.fertilizers.all %}
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">
+                A <span style="color: {{ fertiliser.color }}">{{ fertiliser.color }}</span> {{ fertiliser.name }}
+              </span>
+            </div>
+            <div class="card-action">
+              <form action="{% url 'unassoc_fertiliser' herb.id fertiliser.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn">Remove</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <h5>No Fertiliser</h5>
+      {% endif %}
+    </div>
+    <!-- Available toys will come after this line -->
+    <div class="col s6">
+      <h3>Available Fertiliser</h3>
+      {% if fertilisers.count %}
+        {% for fertiliser in fertilisers.all %}
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">
+                A <span style="color: {{ fertiliser.color }}">{{ fertiliser.color }}</span> {{ fertiliser.name }}
+              </span>
+            </div>
+            <div class="card-action">
+              <form action="{% url 'assoc_toy' herb.id fertiliser.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn">Add</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <h5>{{herb.name}} Already Has All Fertilisers Available</h5>
+      {% endif %}
+    </div>
+  </div>
+    
 
 <script>
   const dateEl = document.getElementById('id_date');
